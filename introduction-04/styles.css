@@ -1,0 +1,394 @@
+/* 基本样式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 设置页面可滚动但控制方式 */
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden; /* 保持body本身不滚动 */
+}
+
+body {
+    background-color: #fff;
+    color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    font-family: SimSun, "宋体", "Times New Roman", Times, serif;
+}
+
+/* 星星容器 */
+#stars-container {
+    position: fixed; /* 改为fixed确保星星背景固定不动 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* 星星样式 */
+.star {
+    position: absolute;
+    color: rgba(0, 0, 0, 0.8);  /* 更高的基础不透明度 */
+    font-size: 0.8rem;
+    user-select: none;
+    transition: opacity 0.05s linear; /* 添加微小过渡，使闪烁更平滑 */
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* 改为从顶部开始对齐 */
+    z-index: 1;  /* 确保内容在星星上方 */
+    overflow-y: auto; /* 允许容器纵向滚动 */
+    padding: 50px 0; /* 添加上下内边距 */
+}
+
+.content {
+    text-align: center;
+    padding: 20px;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto; /* 内容居中 */
+}
+
+/* 打字效果文本容器 */
+.typing-text {
+    font-family: SimSun, "宋体", serif;
+    font-size: 1.5rem;
+    line-height: 1.8;
+    text-align: left;
+    min-height: auto; /* 改为auto以适应内容 */
+    max-width: 100%;
+    margin-bottom: 2rem;
+    white-space: pre-line;
+    letter-spacing: 0.1rem;
+}
+
+/* ASCII地图样式 */
+.ascii-map {
+    font-family: monospace;
+    font-size: 1rem;
+    line-height: 1.2;
+    text-align: center;
+    white-space: pre;
+    margin-bottom: 2rem;
+    display: none; /* 初始隐藏，等待文字打完后显示 */
+}
+
+/* 箭头按钮 */
+.arrow-button {
+    font-family: SimSun, "宋体", serif;
+    font-size: 2rem;
+    padding: 10px 20px;
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: none; /* 初始状态为隐藏 */
+    margin-bottom: 30px; /* 添加底部边距 */
+}
+
+.arrow-button:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+/* 导航按钮容器 */
+.navigation-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px; /* 按钮之间的间距 */
+    margin-bottom: 30px;
+}
+
+/* 导航按钮基本样式 */
+.nav-button {
+    font-family: SimSun, "宋体", serif;
+    font-size: 2rem;
+    padding: 10px 20px;
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: none; /* 初始状态为隐藏 */
+}
+
+/* 按钮悬停效果 */
+.nav-button:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+/* 滚动条样式 */
+.container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.container::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+.container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* 中文标题 - 宋体 */
+.title-cn {
+    font-family: SimSun, "宋体", serif;
+    font-size: 3.5rem;
+    font-weight: normal;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.5rem;
+    animation: fadeInOut 6s infinite;
+    opacity: 0; /* 初始状态为透明 */
+}
+
+/* 英文标题 - Times New Roman 斜体 */
+.title-en {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 2rem;
+    font-style: italic;
+    font-weight: normal;
+    margin-bottom: 3rem;
+    letter-spacing: 0.2rem;
+    animation: fadeInOut 6s infinite 1.5s; /* 延迟1.5秒，与中文标题错开 */
+    opacity: 0; /* 初始状态为透明 */
+}
+
+/* 淡入淡出动画 */
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    25% { opacity: 1; }
+    75% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* 返回按钮容器 */
+.return-button-container {
+    position: absolute;
+    bottom: 20px; /* 与submitTextBtn保持相同高度 */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 5px;
+}
+
+/* 返回按钮样式 */
+.return-btn {
+    font-size: 12px;
+    padding: 6px 5px;
+    height: auto;
+    margin-top: 0;
+    white-space: nowrap;
+}
+
+/* 响应式设计 */
+@media (max-width: 1400px) {
+    .card-container {
+        width: 140px;
+        height: 245px;
+    }
+    
+    .card-display {
+        min-height: 245px;
+    }
+    
+    .pixel-btn {
+        font-size: 12px;
+        padding: 6px 8px;
+    }
+    
+    .confirm-btn {
+        min-width: 90px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .left-sidebar {
+        width: 0;
+        display: none;
+    }
+    
+    .center-content {
+        width: 70%;
+    }
+    
+    .right-sidebar {
+        width: 30%;
+    }
+}
+
+@media (max-width: 900px) {
+    .main-container {
+        flex-direction: column;
+    }
+    
+    .center-content, .right-sidebar {
+        width: 100%;
+    }
+    
+    .center-content {
+        height: 60vh;
+        min-height: 400px;
+    }
+    
+    .right-sidebar {
+        height: 40vh;
+        min-height: 300px;
+        flex-direction: row;
+    }
+    
+    .card-selection, .text-input-section {
+        width: 50%;
+        height: 100%;
+        overflow-y: auto;
+    }
+    
+    .card-selection {
+        border-bottom: none;
+        border-right: 1px solid #ddd;
+        padding: 5px;
+    }
+    
+    .card-container {
+        width: 110px;
+        height: 192px;
+    }
+    
+    .card-display {
+        min-height: 192px;
+        padding: 2px 30px;
+        margin-bottom: 20px;
+    }
+    
+    .card-name {
+        font-size: 12px;
+        bottom: -20px;
+    }
+    
+    #card-hint-text {
+        font-size: 12px;
+        padding: 2px;
+    }
+    
+    .bottom-buttons {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 768px) {
+    .typing-text {
+        font-size: 1.3rem;
+    }
+    
+    .ascii-map {
+        font-size: 0.8rem;
+    }
+    
+    .arrow-button {
+        font-size: 1.7rem;
+        padding: 8px 16px;
+    }
+    
+    .navigation-buttons {
+        gap: 20px; /* 在较小屏幕上减小间距 */
+    }
+    
+    .nav-button {
+        font-size: 1.7rem;
+        padding: 8px 16px;
+    }
+}
+
+@media (max-width: 600px) {
+    .right-sidebar {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .card-selection, .text-input-section {
+        width: 100%;
+        min-height: 170px;
+    }
+    
+    .card-selection {
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .center-content {
+        height: 50vh;
+    }
+    
+    .story-container, .ascii-container {
+        padding: 10px;
+    }
+    
+    .output-text {
+        font-size: 16px;
+    }
+    
+    .ascii-art {
+        font-size: 8px;
+    }
+    
+    .card-container {
+        width: 90px;
+        height: 157px;
+    }
+    
+    .card-display {
+        min-height: 157px;
+    }
+    
+    .pixel-btn {
+        padding: 4px 6px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .typing-text {
+        font-size: 1.1rem;
+    }
+    
+    .ascii-map {
+        font-size: 0.6rem;
+    }
+    
+    .arrow-button {
+        font-size: 1.5rem;
+        padding: 6px 12px;
+    }
+    
+    .navigation-buttons {
+        gap: 15px; /* 在最小屏幕上进一步减小间距 */
+    }
+    
+    .nav-button {
+        font-size: 1.5rem;
+        padding: 6px 12px;
+    }
+}

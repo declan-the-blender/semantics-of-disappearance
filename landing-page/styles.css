@@ -1,0 +1,134 @@
+/* 基本样式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 设置页面不可滚动 */
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+body {
+    background-color: #fff;
+    color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* 星星容器 */
+#stars-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* 星星样式 */
+.star {
+    position: absolute;
+    color: rgba(0, 0, 0, 0.8);  /* 更高的基础不透明度 */
+    font-size: 0.8rem;
+    user-select: none;
+    transition: opacity 0.05s linear; /* 添加微小过渡，使闪烁更平滑 */
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;  /* 确保内容在星星上方 */
+}
+
+.content {
+    text-align: center;
+    padding: 20px;
+}
+
+/* 中文标题 - 宋体 */
+.title-cn {
+    font-family: SimSun, "宋体", serif;
+    font-size: 3.5rem;
+    font-weight: normal;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.5rem;
+    animation: fadeInOut 6s infinite;
+    opacity: 0; /* 初始状态为透明 */
+}
+
+/* 英文标题 - Times New Roman 斜体 */
+.title-en {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 2rem;
+    font-style: italic;
+    font-weight: normal;
+    margin-bottom: 3rem;
+    letter-spacing: 0.2rem;
+    animation: fadeInOut 6s infinite 1.5s; /* 延迟1.5秒，与中文标题错开 */
+    opacity: 0; /* 初始状态为透明 */
+}
+
+/* 淡入淡出动画 */
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    25% { opacity: 1; }
+    75% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* 开启按钮 */
+#start-button {
+    font-family: SimSun, "宋体", serif;
+    font-size: 1.2rem;
+    padding: 12px 40px;
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.3rem;
+}
+
+#start-button:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .title-cn {
+        font-size: 2.5rem;
+        letter-spacing: 0.3rem;
+    }
+    
+    .title-en {
+        font-size: 1.6rem;
+        letter-spacing: 0.1rem;
+    }
+    
+    #start-button {
+        font-size: 1rem;
+        padding: 10px 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .title-cn {
+        font-size: 2rem;
+        letter-spacing: 0.2rem;
+    }
+    
+    .title-en {
+        font-size: 1.3rem;
+    }
+}

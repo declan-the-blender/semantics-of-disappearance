@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>消失的语义学 | Semantics of Disappearance</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="main-container">
+        <!-- Left sidebar (5% width) - 添加倒计时钟和返回按钮 -->
+        <div class="left-sidebar">
+            <div class="return-button-container">
+                <button id="returnButton" class="pixel-btn return-btn">退出</button>
+            </div>
+            <!-- 倒计时和重新开始按钮会在JS中动态添加 -->
+        </div>
+
+        <!-- Center content area (65% width) - 只保留故事文本部分 -->
+        <div class="center-content story-only">
+            <div class="story-container full-height">
+                <div id="story-output" class="output-text"></div>
+            </div>
+        </div>
+
+        <!-- Right sidebar (30% width) - For cards and text input -->
+        <div class="right-sidebar">
+            <!-- Top half for tarot card selection -->
+            <div class="card-selection">
+                <div class="card-display">
+                    <!-- 左右翻页按钮被移到了卡片两侧 -->
+                    <div class="card-container">
+                        <img id="current-card" src="major_arcana/m00.jpg" alt="Tarot Card">
+                        <div class="card-name" id="card-name">愚者</div>
+                    </div>
+                    
+                    <!-- 左右两侧的按钮 -->
+                    <div class="card-controls">
+                        <button id="prevCardBtn" class="pixel-btn">←</button>
+                        <button id="nextCardBtn" class="pixel-btn">→</button>
+                    </div>
+                </div>
+                
+                <!-- 提示文本区域 -->
+                <div class="card-hint">
+                    <p id="card-hint-text">代表新的开始、冒险和无限可能。</p>
+                </div>
+                
+                <!-- 底部的功能按钮 -->
+                <div class="bottom-buttons">
+                    <button id="randomCardBtn" class="pixel-btn random-btn">随机抽牌</button>
+                    <button id="selectCardBtn" class="pixel-btn confirm-btn">选择此牌</button>
+                </div>
+            </div>
+            
+            <!-- Bottom half for manual text input -->
+            <div class="text-input-section">
+                <div class="input-container" id="textInputContainer">
+                    <textarea id="manual-input" placeholder="输入你的故事指引..."></textarea>
+                </div>
+                <div class="input-controls">
+                    <button id="submitTextBtn" class="pixel-btn confirm-btn">提交文本</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

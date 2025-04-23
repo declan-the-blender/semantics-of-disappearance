@@ -1,0 +1,560 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC&family=Noto+Serif+SC&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: SimSun, "宋体", "Times New Roman", Times, serif;
+    background-color: #fff;
+    color: #000;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-container {
+    display: flex;
+    flex: 1;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Left sidebar - 5% width */
+.left-sidebar {
+    width: 5%;
+    background-color: #fff;
+    border-right: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+/* 返回按钮容器 */
+.return-button-container {
+    position: absolute;
+    bottom: 20px; /* 与submitTextBtn保持相同高度 */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 5px;
+}
+
+/* 返回按钮样式 */
+.return-btn {
+    font-size: 12px;
+    padding: 6px 5px;
+    height: auto;
+    margin-top: 0;
+    white-space: nowrap;
+}
+
+/* 倒计时时钟样式 */
+.countdown-container {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 60px;
+    background-color: #fff;
+    border: 1px solid #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: SimSun, "宋体", serif;
+    font-size: 14px;
+    color: #000;
+}
+
+#countdown-display {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+/* 重新开始按钮容器和按钮样式 */
+.restart-container {
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Center content - 65% width */
+.center-content {
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #ddd;
+    min-height: 0; /* Important for flex children to respect parent height */
+}
+
+.center-content.story-only {
+    display: block; /* 修改为block布局，使故事容器占满全部 */
+}
+
+.story-container {
+    padding: 20px;
+    overflow-y: auto;
+    position: relative;
+    flex: 1 0 auto; /* Flex grow and no shrink */
+}
+
+.story-container.full-height {
+    height: 100%; /* 让故事容器占满全高度 */
+}
+
+.output-text {
+    font-size: 18px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    letter-spacing: 1px;
+    font-family: SimSun, "宋体", serif;
+}
+
+.story-paragraph {
+    margin: 15px 0;
+    line-height: 1.8;
+}
+
+.loading-indicator {
+    margin-top: 10px;
+    padding: 5px;
+    background-color: #f0f0f0;
+    border-left: 3px solid #000;
+    font-style: italic;
+}
+
+.error-message {
+    color: #cc0000;
+    padding: 5px;
+    background-color: #ffeeee;
+    border-left: 3px solid #cc0000;
+    margin: 10px 0;
+}
+
+/* Right sidebar - 30% width */
+.right-sidebar {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* Important for flex children to respect parent height */
+}
+
+/* 卡片选择区域整体布局 - 更紧凑的设计 */
+.card-selection {
+    height: 50%;
+    padding: 10px 10px 15px 10px;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid #ddd;
+    overflow: auto; /* 当内容溢出时允许滚动 */
+}
+
+/* 卡片显示区域 - 保持合理大小 */
+.card-display {
+    position: relative;
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 40px; /* 减小上下内边距 */
+    margin-bottom: 25px; /* 减小底部边距 */
+    min-height: 280px; /* 确保最小高度足够容纳卡片 */
+}
+
+/* 卡片容器 - 保持合理大小 */
+.card-container {
+    position: relative;
+    width: 160px;
+    height: 280px;
+    transition: transform 0.3s;
+    max-width: 100%;
+    max-height: 100%;
+    perspective: 1000px;
+}
+
+.card-container:hover {
+    transform: scale(1.02);
+}
+
+/* 卡片图像 */
+.card-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border: none;
+    box-shadow: none;
+    filter: grayscale(100%);
+    background-color: transparent;
+    transition: transform 0.3s ease;
+    transform-style: preserve-3d;
+}
+
+/* 卡片名称 - 更靠近卡片 */
+.card-name {
+    position: absolute;
+    bottom: -25px; /* 更靠近卡片底部 */
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: SimSun, "宋体", serif;
+    font-size: 14px;
+    color: #000;
+    z-index: 5;
+    background-color: transparent;
+    padding: 2px 0; /* 减小内边距 */
+}
+
+/* 卡片提示区域 - 极小的高度 */
+.card-hint {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 5px; /* 极小的底部边距 */
+    display: flex;
+    justify-content: center;
+    flex: 0 0 auto;
+}
+
+/* 卡片提示文本 - 更紧凑 */
+#card-hint-text {
+    font-family: SimSun, "宋体", serif;
+    font-size: 14px;
+    color: #333;
+    max-width: 90%;
+    text-align: center;
+    padding: 3px; /* 极小的内边距 */
+    line-height: 1.4; /* 减小行高 */
+    white-space: pre-line;
+}
+
+/* 左右切换按钮 */
+.card-controls {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5px;
+    pointer-events: none;
+}
+
+/* 底部按钮容器 - 确保在区域内 */
+.bottom-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* 减小按钮间距 */
+    width: 100%;
+    margin: 0; /* 移除所有边距 */
+    flex: 0 0 auto;
+    padding: 5px 0; /* 添加极小的上下内边距 */
+}
+
+.text-input-section {
+    height: 50%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+}
+
+/* Text input area */
+.input-container {
+    flex: 1;
+    margin-bottom: 20px;
+    min-height: 0;
+    display: flex;
+}
+
+textarea {
+    width: 100%;
+    flex: 1;
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #ddd;
+    padding: 15px;
+    font-family: SimSun, "宋体", serif;
+    font-size: 18px;
+    resize: none;
+    outline: none;
+    min-height: 100px;
+}
+
+textarea:focus {
+    border-color: #000;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.input-controls {
+    display: flex;
+    justify-content: center;
+}
+
+/* 调整按钮样式 - 更紧凑 */
+.pixel-btn {
+    pointer-events: auto;
+    z-index: 10;
+    font-family: SimSun, "宋体", serif;
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #000;
+    padding: 6px 10px; /* 减小内边距 */
+    cursor: pointer;
+    font-size: 14px;
+    outline: none;
+    margin: 0;
+    transition: all 0.2s ease;
+}
+
+.pixel-btn:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+.pixel-btn:active {
+    transform: translateY(2px);
+}
+
+.random-btn, .confirm-btn {
+    position: static;
+}
+
+.confirm-btn {
+    min-width: 100px; /* 减小最小宽度 */
+}
+
+/* 响应式调整 */
+@media (max-width: 1400px) {
+    .card-container {
+        width: 140px;
+        height: 245px;
+    }
+    
+    .card-display {
+        min-height: 245px;
+    }
+    
+    .pixel-btn {
+        font-size: 12px;
+        padding: 6px 8px;
+    }
+    
+    .confirm-btn {
+        min-width: 90px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .left-sidebar {
+        width: 0;
+        display: none;
+    }
+    
+    .center-content {
+        width: 70%;
+    }
+    
+    .right-sidebar {
+        width: 30%;
+    }
+}
+
+@media (max-width: 900px) {
+    .main-container {
+        flex-direction: column;
+    }
+    
+    .center-content, .right-sidebar {
+        width: 100%;
+    }
+    
+    .center-content {
+        height: 60vh;
+        min-height: 400px;
+    }
+    
+    .right-sidebar {
+        height: 40vh;
+        min-height: 300px;
+        flex-direction: row;
+    }
+    
+    .card-selection, .text-input-section {
+        width: 50%;
+        height: 100%;
+        overflow-y: auto;
+    }
+    
+    .card-selection {
+        border-bottom: none;
+        border-right: 1px solid #ddd;
+        padding: 5px;
+    }
+    
+    .card-container {
+        width: 110px;
+        height: 192px;
+    }
+    
+    .card-display {
+        min-height: 192px;
+        padding: 2px 30px;
+        margin-bottom: 20px;
+    }
+    
+    .card-name {
+        font-size: 12px;
+        bottom: -20px;
+    }
+    
+    #card-hint-text {
+        font-size: 12px;
+        padding: 2px;
+    }
+    
+    .bottom-buttons {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 600px) {
+    .right-sidebar {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .card-selection, .text-input-section {
+        width: 100%;
+        min-height: 170px;
+    }
+    
+    .card-selection {
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .center-content {
+        height: 50vh;
+    }
+    
+    .story-container {
+        padding: 10px;
+    }
+    
+    .output-text {
+        font-size: 16px;
+    }
+    
+    .card-container {
+        width: 90px;
+        height: 157px;
+    }
+    
+    .card-display {
+        min-height: 157px;
+    }
+    
+    .pixel-btn {
+        padding: 4px 6px;
+        font-size: 12px;
+    }
+}
+
+/* 卡牌翻动动画效果 */
+@keyframes cardFlip {
+    0% {
+        transform: perspective(1000px) rotateY(0deg);
+        opacity: 1;
+    }
+    25% {
+        transform: perspective(1000px) rotateY(90deg);
+        opacity: 0.8;
+    }
+    75% {
+        transform: perspective(1000px) rotateY(-90deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: perspective(1000px) rotateY(0deg);
+        opacity: 1;
+    }
+}
+
+/* 添加到卡片图像上的翻动动画类 */
+.card-container img.flipping {
+    animation: cardFlip 0.4s linear;
+    animation-fill-mode: forwards;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+/* 禁用状态的按钮样式 */
+.pixel-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* 结束故事按钮样式修改 - 恢复白底黑字 */
+#endStoryButton {
+    background-color: #fff !important;
+    color: #000 !important;
+    border: 1px solid #000 !important;
+}
+
+/* 鼠标悬停效果 */
+#endStoryButton:hover {
+    background-color: #000 !important;
+    color: #fff !important;
+}
+
+/* 倒计时按钮样式修改 - 黑底白字 */
+.countdown-container {
+    background-color: #000 !important;
+    color: #fff !important;
+    border: 1px solid #000 !important;
+}
+
+#countdown-display {
+    color: #fff !important;
+}
+
+/* 统一加载框样式 - 方形黑底白字 */
+.loading-indicator {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #000 !important;
+    color: #fff !important;
+    padding: 20px !important;
+    border-radius: 0 !important; /* 移除圆角，使其成为方形 */
+    z-index: 1000;
+    font-family: SimSun, "宋体", serif !important;
+    font-size: 18px !important;
+    border: none !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3) !important;
+    text-align: center !important;
+    min-width: 200px !important;
+}
